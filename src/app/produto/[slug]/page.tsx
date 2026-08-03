@@ -245,7 +245,13 @@ export default async function ProductPage({
           </div>
 
           <Link
-            href="/#contato"
+            href={`https://wa.me/5516994384160?text=${encodeURIComponent(
+  `Olá! Vi o produto ${product.name} (código ${
+    product.main_code ?? "não informado"
+  }) no site da Master Diesel e gostaria de confirmar a aplicação e disponibilidade.`
+)}`}
+target="_blank"
+rel="noopener noreferrer"
             className="mt-8 block rounded-xl bg-yellow-400 px-6 py-4 text-center font-black text-black transition hover:bg-yellow-300"
           >
             Solicitar orçamento
