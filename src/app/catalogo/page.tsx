@@ -132,7 +132,7 @@ export default async function CatalogoPage() {
                 );
 
                 return (
-                  <article
+                  <Link href={`/produto/${product.slug}`}
                     key={product.id}
                     className="relative overflow-hidden rounded-2xl border border-zinc-200 bg-white shadow-sm transition hover:-translate-y-1 hover:shadow-lg"
                   >
@@ -222,7 +222,7 @@ export default async function CatalogoPage() {
                         </div>
                       </div>
                     </div>
-                  </article>
+                  </Link>
                 );
               })}
             </div>
