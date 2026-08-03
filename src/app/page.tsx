@@ -55,7 +55,7 @@ export default function Home() {
             <a className="hover:text-yellow-400" href="#inicio">
               Início
             </a>
-            <a className="hover:text-yellow-400" href="#categorias">
+            <a className="hover:text-yellow-400" href="/catalogo">
               Categorias
             </a>
             <a className="hover:text-yellow-400" href="#aplicacoes">
@@ -90,7 +90,7 @@ export default function Home() {
 
             <div className="mt-9 flex flex-wrap gap-4">
               <a
-                href="#categorias"
+                href="/catalogo"
                 className="rounded-lg bg-yellow-400 px-6 py-4 font-black text-black transition hover:bg-yellow-300"
               >
                 Ver categorias
@@ -144,9 +144,9 @@ export default function Home() {
               <p className="mt-3 leading-7 text-zinc-600">
                 {categoria.descricao}
               </p>
-              <button className="mt-6 font-bold text-zinc-900 hover:text-yellow-600">
+              <a href="/catalogo" className="mt-6 font-bold text-zinc-900 hover:text-yellow-600">
                 Ver peças →
-              </button>
+              </a>
             </article>
           ))}
         </div>
@@ -185,9 +185,14 @@ export default function Home() {
             </p>
           </div>
 
-          <button className="rounded-lg bg-black px-7 py-4 font-black text-white transition hover:bg-zinc-800">
+          <a
+  href="https://wa.me/5516994384160?text=Ol%C3%A1%21%20Estou%20no%20site%20da%20Master%20Diesel%20e%20preciso%20de%20ajuda%20para%20encontrar%20uma%20pe%C3%A7a."
+  target="_blank"
+  rel="noopener noreferrer"
+  className="rounded-lg bg-black px-7 py-4 font-black text-white transition hover:bg-zinc-800"
+>
             Falar com um especialista
-          </button>
+          </a>
         </div>
       </section>
 
