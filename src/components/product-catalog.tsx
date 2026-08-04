@@ -240,7 +240,7 @@ const filteredProducts = useMemo(() => {
                   </span>
                 )}
 
-                <div className="flex aspect-square items-center justify-center bg-white p-6">
+                <div className="flex aspect-[4/3] items-center justify-center bg-white p-3 sm:aspect-square sm:p-6">
                   {product.image_urls?.[0] ? (
                     <img
                       src={product.image_urls[0]}
@@ -254,7 +254,7 @@ const filteredProducts = useMemo(() => {
                   )}
                 </div>
 
-                <div className="border-t border-zinc-100 p-6">
+                <div className="border-t border-zinc-100 p-4 sm:p-6">
                   <div className="flex flex-wrap gap-2">
                     {product.brand && (
                       <span className="rounded-full bg-zinc-100 px-3 py-1 text-xs font-bold">
@@ -263,18 +263,18 @@ const filteredProducts = useMemo(() => {
                     )}
 
                     {product.main_code && (
-                      <span className="rounded-full bg-yellow-100 px-3 py-1 text-xs font-bold">
+                      <span className="max-w-full break-all rounded-lg bg-yellow-100 px-3 py-1 text-[11px] font-bold leading-4 sm:rounded-full sm:text-xs">
                         Cód. {product.main_code}
                       </span>
                     )}
                   </div>
 
-                  <h2 className="mt-4 text-xl font-black leading-7">
+                  <h2 className="mt-4 text-lg font-black leading-6 sm:text-xl sm:leading-7">
                     {product.name}
                   </h2>
 
                   {product.short_description && (
-                    <p className="mt-3 line-clamp-3 leading-7 text-zinc-600">
+                    <p className="mt-2 line-clamp-2 text-sm leading-6 text-zinc-600 sm:mt-3 sm:line-clamp-3 sm:text-base sm:leading-7">
                       {product.short_description}
                     </p>
                   )}
