@@ -2,7 +2,7 @@ import Link from "next/link";
 import { notFound, redirect } from "next/navigation";
 import { createServerSupabaseClient } from "@/lib/supabase-server";
 import { updateProduct } from "../actions";
-
+import { ProductImageUploader } from "@/components/product-image-uploader";
 type EditProductPageProps = {
   params: Promise<{ id: string }>;
   searchParams: Promise<{ erro?: string }>;
@@ -288,7 +288,7 @@ export default async function EditProductPage({
                   id="years"
                   name="years"
                   defaultValue={
-                    
+
   Array.isArray(product.years)
     ? product.years.join(", ")
     : product.years ?? ""
@@ -315,17 +315,10 @@ export default async function EditProductPage({
             <h2 className="text-xl font-black">Imagens</h2>
 
             <div className="mt-6">
-              <label htmlFor="image_urls" className={labelClass}>
-                Endereços das imagens
-              </label>
-              <textarea
-                id="image_urls"
-                name="image_urls"
-                rows={5}
-                defaultValue={(product.image_urls ?? []).join("\n")}
-                className={inputClass}
-              />
-            </div>
+  <ProductImageUploader
+    initialUrls={product.image_urls ?? []}
+  />
+</div>
           </section>
 
           <section className="rounded-2xl border border-zinc-200 bg-white p-6 shadow-sm">
