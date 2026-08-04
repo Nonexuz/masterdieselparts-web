@@ -58,26 +58,63 @@ export function ProductCatalog({
 }: ProductCatalogProps) {
   const [search, setSearch] = useState(initialSearch);
 
-  const filteredProducts = useMemo(() => {
-    const normalizedSearch = normalizeText(search.trim());
+  const [availabilityFilter, setAvailabilityFilter] = useState<
+  "all" | "available"
+>("all");
 
-    if (!normalizedSearch) return products;
+const [sortOrder, setSortOrder] = useState<
+  "name" | "price-asc" | "price-desc"
+>("name");
 
-    return products.filter((product) => {
-      const searchableContent = [
-        product.name,
-        product.main_code ?? "",
-        ...(product.alternative_codes ?? []),
-        product.brand ?? "",
-        ...(product.vehicle_models ?? []),
-        ...(product.engines ?? []),
-      ].join(" ");
+const filteredProducts = useMemo(() => {
+  const normalizedSearch = normalizeText(search.trim());
 
-      return normalizeText(searchableContent).includes(
-        normalizedSearch
-      );
-    });
-  }, [products, search]);
+  const searchedProducts = normalizedSearch
+    ? products.filter((product) => {
+        const searchableContent = [
+          product.name,
+          product.main_code ?? "",
+          ...(product.alternative_codes ?? []),
+          product.brand ?? "",
+          ...(product.vehicle_models ?? []),
+          ...(product.engines ?? []),
+        ].join(" ");
+
+        return normalizeText(searchableContent).includes(normalizedSearch);
+      })
+    : products;
+
+  const availableProducts =
+    availabilityFilter === "available"
+      ? searchedProducts.filter(
+          (product) => product.available && product.stock_quantity > 0
+        )
+      : searchedProducts;
+
+  return [...availableProducts].sort((productA, productB) => {
+    if (sortOrder === "price-asc") {
+      const priceA =
+        calculateDiscount(productA.price, productA.discount_percent) ??
+        Number.MAX_SAFE_INTEGER;
+      const priceB =
+        calculateDiscount(productB.price, productB.discount_percent) ??
+        Number.MAX_SAFE_INTEGER;
+
+      return priceA - priceB;
+    }
+
+    if (sortOrder === "price-desc") {
+      const priceA =
+        calculateDiscount(productA.price, productA.discount_percent) ?? -1;
+      const priceB =
+        calculateDiscount(productB.price, productB.discount_percent) ?? -1;
+
+      return priceB - priceA;
+    }
+
+    return productA.name.localeCompare(productB.name, "pt-BR");
+  });
+}, [products, search, availabilityFilter, sortOrder]);
 
   return (
     <>
@@ -107,7 +144,57 @@ export function ProductCatalog({
             className="w-full rounded-xl border border-zinc-300 bg-white py-4 pl-12 pr-4 text-base outline-none transition focus:border-yellow-500 focus:ring-4 focus:ring-yellow-100"
           />
         </div>
+<div className="mt-4 grid gap-4 sm:grid-cols-2">
+  <div>
+    <label
+      htmlFor="availability-filter"
+      className="mb-2 block text-sm font-bold text-zinc-700"
+    >
+      Disponibilidade
+    </label>
 
+    <select
+      id="availability-filter"
+      value={availabilityFilter}
+      onChange={(event) =>
+        setAvailabilityFilter(
+          event.target.value as "all" | "available"
+        )
+      }
+      className="w-full rounded-xl border border-zinc-300 bg-white px-4 py-3 text-zinc-900 outline-none focus:border-yellow-400"
+    >
+      <option value="all">Todos os produtos</option>
+      <option value="available">Disponíveis em estoque</option>
+    </select>
+  </div>
+
+  <div>
+    <label
+      htmlFor="sort-order"
+      className="mb-2 block text-sm font-bold text-zinc-700"
+    >
+      Ordenar por
+    </label>
+
+    <select
+      id="sort-order"
+      value={sortOrder}
+      onChange={(event) =>
+        setSortOrder(
+          event.target.value as
+            | "name"
+            | "price-asc"
+            | "price-desc"
+        )
+      }
+      className="w-full rounded-xl border border-zinc-300 bg-white px-4 py-3 text-zinc-900 outline-none focus:border-yellow-400"
+    >
+      <option value="name">Nome: A–Z</option>
+      <option value="price-asc">Menor preço</option>
+      <option value="price-desc">Maior preço</option>
+    </select>
+  </div>
+</div>
         <p className="mt-3 text-sm font-bold text-zinc-600">
           {filteredProducts.length}{" "}
           {filteredProducts.length === 1
