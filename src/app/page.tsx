@@ -105,24 +105,47 @@ export default function Home() {
             </div>
           </div>
 
-          <div className="flex items-center justify-center">
-            <div className="w-full max-w-md rounded-2xl border border-zinc-700 bg-zinc-900 p-8 shadow-2xl">
-              <p className="text-sm font-bold uppercase tracking-widest text-yellow-400">
-                Busca especializada
-              </p>
-              <h2 className="mt-3 text-2xl font-black">
-                Não sabe qual peça comprar?
-              </h2>
-              <p className="mt-4 leading-7 text-zinc-400">
-                Informe o modelo, ano, motor ou código da peça. Ajudamos você
-                a confirmar a aplicação correta.
-              </p>
-              <div className="mt-6 rounded-lg bg-black p-4 text-sm text-zinc-300">
-                Exemplo: Hyundai HR 2.5 16V 2015
-              </div>
-            </div>
-          </div>
-        </div>
+<div className="flex items-center justify-center">
+  <div className="w-full max-w-md rounded-2xl border border-zinc-700 bg-zinc-900 p-8 shadow-2xl">
+    <p className="text-sm font-bold uppercase tracking-widest text-yellow-400">
+      Busca especializada
+    </p>
+
+    <h2 className="mt-3 text-2xl font-black">
+      Não sabe qual peça comprar?
+    </h2>
+
+    <p className="mt-4 leading-7 text-zinc-400">
+      Informe o modelo, ano, motor ou código da peça. Ajudamos
+      você a confirmar a aplicação correta.
+    </p>
+
+    <form action="/catalogo" method="GET" className="mt-6">
+      <label htmlFor="hero-search" className="sr-only">
+        Buscar peça
+      </label>
+
+      <div className="flex flex-col gap-3 sm:flex-row">
+        <input
+          id="hero-search"
+          name="busca"
+          type="search"
+          required
+          placeholder="Ex.: HR 2.5 16V ou 24380-4A100"
+          className="min-w-0 flex-1 rounded-lg border border-zinc-700 bg-black px-4 py-4 text-white outline-none placeholder:text-zinc-500 focus:border-yellow-400"
+        />
+
+        <button
+          type="submit"
+          className="rounded-lg bg-yellow-400 px-5 py-4 font-black text-black transition hover:bg-yellow-300"
+        >
+          Buscar peça
+        </button>
+      </div>
+    </form>
+  </div>
+</div>
+</div>
       </section>
 
       <section id="categorias" className="mx-auto max-w-7xl px-6 py-20">

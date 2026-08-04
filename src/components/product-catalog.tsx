@@ -22,6 +22,7 @@ export type CatalogProduct = {
 
 type ProductCatalogProps = {
   products: CatalogProduct[];
+  initialSearch?: string;
 };
 
 function normalizeText(value: string) {
@@ -53,8 +54,9 @@ function calculateDiscount(
 
 export function ProductCatalog({
   products,
+  initialSearch = "",
 }: ProductCatalogProps) {
-  const [search, setSearch] = useState("");
+  const [search, setSearch] = useState(initialSearch);
 
   const filteredProducts = useMemo(() => {
     const normalizedSearch = normalizeText(search.trim());

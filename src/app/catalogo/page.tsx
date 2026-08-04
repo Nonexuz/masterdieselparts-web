@@ -24,7 +24,16 @@ async function getProducts() {
   return (data ?? []) as CatalogProduct[];
 }
 
-export default async function CatalogoPage() {
+type CatalogoPageProps = {
+  searchParams: Promise<{
+    busca?: string;
+  }>;
+};
+
+export default async function CatalogoPage({
+  searchParams,
+}: CatalogoPageProps) {
+  const { busca = "" } = await searchParams;
   const products = await getProducts();
 
   return (
@@ -68,7 +77,10 @@ export default async function CatalogoPage() {
       </section>
 
       <section className="mx-auto max-w-7xl px-6 py-14">
-        <ProductCatalog products={products} />
+        <ProductCatalog
+  products={products}
+  initialSearch={busca}
+/>
       </section>
     </main>
   );
