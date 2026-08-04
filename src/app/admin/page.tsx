@@ -64,13 +64,12 @@ export default async function AdminPage() {
             <p className="mt-3 text-zinc-600">
               Cadastre, edite e organize as peças disponíveis no site.
             </p>
-            <button
-              type="button"
-              disabled
-              className="mt-6 rounded-lg bg-zinc-200 px-5 py-3 font-bold text-zinc-500"
-            >
-              Em construção
-            </button>
+            <Link
+  href="/admin/produtos"
+  className="mt-6 inline-block rounded-lg bg-yellow-400 px-5 py-3 font-black text-black transition hover:bg-yellow-300"
+>
+  Gerenciar produtos
+</Link>
           </article>
 
           <article className="rounded-2xl border border-zinc-200 bg-white p-6 shadow-sm">
