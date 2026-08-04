@@ -160,3 +160,112 @@ export async function createProduct(formData: FormData) {
   revalidatePath("/admin/produtos");
   redirect("/admin/produtos");
 }
+
+export async function quickUpdateProduct(formData: FormData) {
+  const supabase = await createServerSupabaseClient();
+
+  const {
+    data: { user },
+  } = await supabase.auth.getUser();
+
+  if (!user) {
+    redirect("/admin/login");
+  }
+
+  const id = getText(formData, "id");
+  const stockQuantity = Math.max(
+    0,
+    Math.trunc(getNumber(formData, "stock_quantity"))
+  );
+  const available = formData.get("available") === "on";
+
+  if (!id) {
+    throw new Error("Produto inválido.");
+  }
+
+  const { error } = await supabase
+    .from("products")
+    .update({
+      stock_quantity: stockQuantity,
+      available,
+    })
+    .eq("id", id);
+
+  if (error) {
+    throw new Error(`Erro ao atualizar produto: ${error.message}`);
+  }
+
+  revalidatePath("/admin/produtos");
+  revalidatePath("/catalogo");
+}
+
+export async function bulkUpdateProducts(formData: FormData) {
+  const supabase = await createServerSupabaseClient();
+
+  const {
+    data: { user },
+  } = await supabase.auth.getUser();
+
+  if (!user) {
+    redirect("/admin/login");
+  }
+
+  const selectedIds = getText(formData, "selected_ids")
+    .split(",")
+    .map((id) => id.trim())
+    .filter(Boolean);
+
+  const bulkAction = getText(formData, "bulk_action");
+
+  if (selectedIds.length === 0) {
+    throw new Error("Selecione pelo menos um produto.");
+  }
+
+ let updateData: {
+  discount_percent?: number;
+  available?: boolean;
+  stock_quantity?: number;
+};
+
+  if (bulkAction === "discount") {
+    const discountPercent = Math.min(
+      100,
+      Math.max(0, getNumber(formData, "discount_percent"))
+    );
+
+    updateData = {
+      discount_percent: discountPercent,
+    };
+  } else if (bulkAction === "stock") {
+  const stockQuantity = Math.max(
+    0,
+    Math.trunc(getNumber(formData, "stock_quantity"))
+  );
+
+  updateData = {
+    stock_quantity: stockQuantity,
+  };
+  } else if (bulkAction === "available") {
+    updateData = {
+      available: true,
+    };
+  } else if (bulkAction === "unavailable") {
+    updateData = {
+      available: false,
+    };
+  } else {
+    throw new Error("Ação em massa inválida.");
+  }
+
+  const { error } = await supabase
+    .from("products")
+    .update(updateData)
+    .in("id", selectedIds);
+
+  if (error) {
+    throw new Error(`Erro na atualização em massa: ${error.message}`);
+  }
+
+  revalidatePath("/admin/produtos");
+  revalidatePath("/catalogo");
+}

@@ -1,7 +1,7 @@
 import Link from "next/link";
 import { redirect } from "next/navigation";
 import { createServerSupabaseClient } from "@/lib/supabase-server";
-
+import { AdminProductsManager } from "@/components/admin-products-manager";
 type AdminProduct = {
   id: string;
   name: string;
@@ -107,72 +107,7 @@ export default async function AdminProductsPage() {
               </p>
             </div>
           ) : (
-            <div className="overflow-x-auto">
-              <table className="w-full min-w-[850px] text-left">
-                <thead className="bg-zinc-950 text-sm text-white">
-                  <tr>
-                    <th className="px-5 py-4">Produto</th>
-                    <th className="px-5 py-4">Código</th>
-                    <th className="px-5 py-4">Preço</th>
-                    <th className="px-5 py-4">Desconto</th>
-                    <th className="px-5 py-4">Estoque</th>
-                    <th className="px-5 py-4">Situação</th>
-                  <th className="px-5 py-4">Ações</th>
-</tr>
-                </thead>
-
-                <tbody className="divide-y divide-zinc-200">
-                  {products.map((product) => (
-                    <tr key={product.id} className="hover:bg-zinc-50">
-                      <td className="px-5 py-4">
-                        <p className="max-w-md font-black">
-                          {product.name}
-                        </p>
-                      </td>
-
-                      <td className="px-5 py-4 font-mono text-sm">
-                        {product.main_code ?? "—"}
-                      </td>
-
-                      <td className="px-5 py-4 font-bold">
-                        {formatPrice(product.price)}
-                      </td>
-
-                      <td className="px-5 py-4">
-                        {Number(product.discount_percent) > 0
-                          ? `${Number(product.discount_percent)}%`
-                          : "Sem desconto"}
-                      </td>
-
-                      <td className="px-5 py-4 font-black">
-                        {product.stock_quantity}
-                      </td>
-
-                      <td className="px-5 py-4">
-                        {product.active && product.available ? (
-                          <span className="rounded-full bg-green-100 px-3 py-1 text-xs font-black text-green-700">
-                            Disponível
-                          </span>
-                        ) : (
-                          <span className="rounded-full bg-zinc-200 px-3 py-1 text-xs font-black text-zinc-600">
-                            Indisponível
-                          </span>
-                        )}
-                      </td>
-                      <td className="px-5 py-4">
-  <Link
-    href={`/admin/produtos/${product.id}`}
-    className="inline-block rounded-lg bg-yellow-400 px-4 py-2 text-sm font-black text-black hover:bg-yellow-300"
-  >
-    Editar
-  </Link>
-</td>
-                    </tr>
-                  ))}
-                </tbody>
-              </table>
-            </div>
-          )}
+<AdminProductsManager products={products} />          )}
         </div>
       </div>
     </main>
