@@ -118,33 +118,8 @@ const filteredProducts = useMemo(() => {
 
   return (
     <>
-      <div className="mb-8">
-        <label
-          htmlFor="product-search"
-          className="mb-3 block text-sm font-black uppercase tracking-wider text-zinc-700"
-        >
-          Buscar no catálogo
-        </label>
-
-        <div className="relative">
-          <svg
-            viewBox="0 0 24 24"
-            aria-hidden="true"
-            className="absolute left-4 top-1/2 h-5 w-5 -translate-y-1/2 fill-zinc-500"
-          >
-            <path d="m21.53 20.47-4.69-4.69a8 8 0 1 0-1.06 1.06l4.69 4.69a.75.75 0 1 0 1.06-1.06ZM10.75 17a6.25 6.25 0 1 1 0-12.5 6.25 6.25 0 0 1 0 12.5Z" />
-          </svg>
-
-          <input
-            id="product-search"
-            type="search"
-            value={search}
-            onChange={(event) => setSearch(event.target.value)}
-            placeholder="Digite o nome, código, marca, veículo ou motor"
-            className="w-full rounded-xl border border-zinc-300 bg-white py-4 pl-12 pr-4 text-base outline-none transition focus:border-yellow-500 focus:ring-4 focus:ring-yellow-100"
-          />
-        </div>
-<div className="mt-4 grid gap-4 sm:grid-cols-2">
+      
+<div className="mb-3 grid gap-3 rounded-xl border border-zinc-200 bg-white p-3 sm:grid-cols-2">
   <div>
     <label
       htmlFor="availability-filter"
@@ -161,7 +136,7 @@ const filteredProducts = useMemo(() => {
           event.target.value as "all" | "available"
         )
       }
-      className="w-full rounded-xl border border-zinc-300 bg-white px-4 py-3 text-zinc-900 outline-none focus:border-yellow-400"
+      className="w-full rounded-lg border border-zinc-300 bg-white px-3 py-2 text-sm text-zinc-900 outline-none focus:border-yellow-400"
     >
       <option value="all">Todos os produtos</option>
       <option value="available">Disponíveis em estoque</option>
@@ -187,7 +162,7 @@ const filteredProducts = useMemo(() => {
             | "price-desc"
         )
       }
-      className="w-full rounded-xl border border-zinc-300 bg-white px-4 py-3 text-zinc-900 outline-none focus:border-yellow-400"
+      className="w-full rounded-lg border border-zinc-300 bg-white px-3 py-2 text-sm text-zinc-900 outline-none focus:border-yellow-400"
     >
       <option value="name">Nome: A–Z</option>
       <option value="price-asc">Menor preço</option>
@@ -201,7 +176,7 @@ const filteredProducts = useMemo(() => {
             ? "produto encontrado"
             : "produtos encontrados"}
         </p>
-      </div>
+      
 
       {filteredProducts.length === 0 ? (
         <div className="rounded-2xl border border-dashed border-zinc-300 bg-white px-6 py-16 text-center">
@@ -214,7 +189,7 @@ const filteredProducts = useMemo(() => {
           </p>
         </div>
       ) : (
-        <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
+        <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
           {filteredProducts.map((product) => {
             const discount = Number(
               product.discount_percent ?? 0
@@ -240,7 +215,7 @@ const filteredProducts = useMemo(() => {
                   </span>
                 )}
 
-                <div className="flex aspect-[4/3] items-center justify-center bg-white p-3 sm:aspect-square sm:p-6">
+                <div className="flex aspect-square items-center justify-center bg-white p-3">
                   {product.image_urls?.[0] ? (
                     <img
                       src={product.image_urls[0]}
@@ -254,7 +229,7 @@ const filteredProducts = useMemo(() => {
                   )}
                 </div>
 
-                <div className="border-t border-zinc-100 p-4 sm:p-6">
+                <div className="border-t border-zinc-100 p-3">
                   <div className="flex flex-wrap gap-2">
                     {product.brand && (
                       <span className="rounded-full bg-zinc-100 px-3 py-1 text-xs font-bold">
@@ -269,26 +244,13 @@ const filteredProducts = useMemo(() => {
                     )}
                   </div>
 
-                  <h2 className="mt-4 text-lg font-black leading-6 sm:text-xl sm:leading-7">
+                  <h2 className="mt-3 line-clamp-3 min-h-[3.75rem] text-base font-black leading-5">
                     {product.name}
                   </h2>
 
-                  {product.short_description && (
-                    <p className="mt-2 line-clamp-2 text-sm leading-6 text-zinc-600 sm:mt-3 sm:line-clamp-3 sm:text-base sm:leading-7">
-                      {product.short_description}
-                    </p>
-                  )}
 
-                  {product.vehicle_models?.length > 0 && (
-                    <p className="mt-4 text-sm text-zinc-500">
-                      Aplicação:{" "}
-                      {product.vehicle_models
-                        .slice(0, 3)
-                        .join(", ")}
-                    </p>
-                  )}
 
-                  <div className="mt-6">
+                  <div className="mt-4">
                     <p className="text-xs font-bold uppercase text-zinc-500">
                       Preço
                     </p>
